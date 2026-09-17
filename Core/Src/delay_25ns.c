@@ -11,7 +11,7 @@
 //
 //#include <math.h> //TEST
 #include <assert.h>
-
+#include "stm32f7xx_ll_tim.h"
 /* This implementation is not sharable. Only one task at a time can use it. */
 
 /*

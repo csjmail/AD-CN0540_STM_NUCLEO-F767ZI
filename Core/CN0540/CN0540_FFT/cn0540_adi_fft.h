@@ -10,6 +10,7 @@
 #define CN0540_ADI_FFT_H_
 
 #include "stdint.h"
+#include "stm32f7xx.h"
 #include "arm_math.h"
 #include "stdbool.h"
 

@@ -13,6 +13,10 @@
 #include <math.h>
 #include <stdbool.h>
 
+#include "arm_math.h"
+#include "arm_const_structs.h" // Required for global config structures
+
+
 static arm_cfft_radix4_instance_f32 S;
 
 static void FFT_maginutde_do_dB(struct fft_entry *fft_data, double sum);
@@ -92,7 +96,8 @@ int32_t FFT_init_params(struct fft_entry **fft_entry_init, struct fft_measuremen
  */
 void FFT_init(uint16_t sample_count, struct fft_entry *fft_data)
 {
-	arm_cfft_radix4_init_f32(&S, sample_count, 0, 1);
+	arm_cfft_f32(&arm_cfft_sR_f32_len1024, fft_data->fft_input, 0, 1);
+	//arm_cfft_radix4_init_f32(&S, sample_count, 0, 1);
 	fft_data->fft_length = sample_count / 2;
 }
 

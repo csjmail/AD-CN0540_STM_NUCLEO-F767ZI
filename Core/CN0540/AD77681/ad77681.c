@@ -47,8 +47,8 @@
 #include "ad77681.h"
 //#include "error.h"
 //#include "delay.h"
-
-#include "stm32l4xx_hal.h"
+#include "printf.h"
+#include "stm32f7xx_hal.h"
 #include "platform_drivers.h"
 
 /******************************************************************************/
@@ -62,7 +62,6 @@ int32_t spi_write_and_read(spi_desc *desc, uint8_t *data, uint8_t bytes_number) 
 	uint8_t *pRxData = data;
 	uint16_t Size = bytes_number;
 	uint32_t Timeout = 1000;
-
 	HAL_GPIO_WritePin(CS_ADC_GPIO_Port, CS_ADC_Pin, GPIO_PIN_RESET);
 	asm volatile("" ::: "memory");
 	HAL_StatusTypeDef hs = HAL_SPI_TransmitReceive(hspi, pTxData, pRxData, Size, Timeout);
@@ -321,9 +320,10 @@ int32_t ad77681_spi_read_adc_data(struct ad77681_dev *dev,
 
 
 	ret = spi_write_and_read(dev->spi_desc, buf, dev->data_frame_byte + add_buff);
-	if (ret < 0)
+	if (ret < 0){
+		printf_("spi ret Failure");
 		return ret;
-
+	}
 	if (dev->crc_sel != AD77681_NO_CRC) {
 		if (dev->crc_sel == AD77681_CRC)
 			crc_xor = ad77681_compute_crc8(buf + add_buff, dev->data_frame_byte - 1,
@@ -1790,7 +1790,6 @@ int32_t ad77681_setup(struct ad77681_dev **device,
 	if (!dev) {
 		return -1;
 	}
-
 	stat = (struct ad77681_status_registers *)malloc(sizeof(*stat));
 	if (!stat) {
 		free(dev);

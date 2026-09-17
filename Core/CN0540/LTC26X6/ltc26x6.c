@@ -44,6 +44,7 @@
 #include "main.h"
 #include "cn0540_init_params.h"
 //
+#include "printf.h"
 #include "ltc26x6.h"
 
 /**
@@ -57,6 +58,7 @@
  * @return SUCCESS in case of success, FAILURE otherwise.
  */
 int32_t i2c_write(i2c_desc *desc, uint8_t *data, uint8_t bytes_number, uint8_t stop_bit) {
+	//printf_("I2C write/n");
 	(void) stop_bit;
 	uint32_t Timeout = 1000;
 	HAL_StatusTypeDef rc = HAL_I2C_Master_Transmit(&hi2c1, desc->slave_address, data, bytes_number, Timeout);

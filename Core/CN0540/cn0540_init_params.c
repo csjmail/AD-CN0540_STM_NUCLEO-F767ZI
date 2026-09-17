@@ -29,8 +29,8 @@
 struct ad77681_init_param init_params = {
 
 //	spi_params,					// SPI parameters
-	AD77681_ECO,				// power_mode
-	AD77681_MCLK_DIV_16,		// mclk_div
+	AD77681_ECO,				// power_mode 			=Low (recommended)
+	AD77681_MCLK_DIV_16,		// mclk_div				(recommended)
 	AD77681_CONV_CONTINUOUS,	// conv_mode
 	AD77681_AIN_SHORT,			// diag_mux_sel
 	false,						// conv_diag_sel
@@ -42,8 +42,8 @@ struct ad77681_init_param init_params = {
 	AD77681_AINp_ENABLED,		// AIN+ precharge buffer
 	AD77681_BUFn_ENABLED,		// REF- buffer
 	AD77681_BUFp_ENABLED,		// REF+ buffer
-	AD77681_FIR,				// FIR Filter
-	AD77681_SINC5_FIR_DECx32,	// Decimate by 32
+	AD77681_FIR,				// FIR Filter			(recommended)
+	AD77681_SINC5_FIR_DECx128,	// Decimate by 32		(recommended)
 	0,							// OS ratio of SINC3
 	4096,						// Reference voltage
 	16384,						// MCLK in kHz

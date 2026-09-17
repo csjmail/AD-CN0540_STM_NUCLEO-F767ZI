@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2026 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -27,19 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal.h"
-#include "stm32l4xx_ll_lpuart.h"
-#include "stm32l4xx_ll_rcc.h"
-#include "stm32l4xx_ll_tim.h"
-#include "stm32l4xx_ll_bus.h"
-#include "stm32l4xx_ll_cortex.h"
-#include "stm32l4xx_ll_system.h"
-#include "stm32l4xx_ll_utils.h"
-#include "stm32l4xx_ll_pwr.h"
-#include "stm32l4xx_ll_gpio.h"
-#include "stm32l4xx_ll_dma.h"
-
-#include "stm32l4xx_ll_exti.h"
+#include "stm32f7xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -53,9 +41,6 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
-extern SPI_HandleTypeDef hspi1;
-extern  I2C_HandleTypeDef hi2c1;
 
 /* USER CODE END EC */
 
@@ -72,17 +57,23 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define B1_Pin GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
-#define B1_EXTI_IRQn EXTI15_10_IRQn
-#define IO4_Pin GPIO_PIN_0
-#define IO4_GPIO_Port GPIOC
-#define IO3_Pin GPIO_PIN_3
-#define IO3_GPIO_Port GPIOC
-#define IO5_Pin GPIO_PIN_3
-#define IO5_GPIO_Port GPIOA
-#define IO0_Pin GPIO_PIN_5
-#define IO0_GPIO_Port GPIOC
+#define USER_Btn_Pin GPIO_PIN_13
+#define USER_Btn_GPIO_Port GPIOC
+#define USER_Btn_EXTI_IRQn EXTI15_10_IRQn
+#define MCO_Pin GPIO_PIN_0
+#define MCO_GPIO_Port GPIOH
+#define RMII_MDC_Pin GPIO_PIN_1
+#define RMII_MDC_GPIO_Port GPIOC
+#define RMII_REF_CLK_Pin GPIO_PIN_1
+#define RMII_REF_CLK_GPIO_Port GPIOA
+#define RMII_MDIO_Pin GPIO_PIN_2
+#define RMII_MDIO_GPIO_Port GPIOA
+#define RMII_RXD0_Pin GPIO_PIN_4
+#define RMII_RXD0_GPIO_Port GPIOC
+#define RMII_RXD1_Pin GPIO_PIN_5
+#define RMII_RXD1_GPIO_Port GPIOC
+#define LD1_Pin GPIO_PIN_0
+#define LD1_GPIO_Port GPIOB
 #define RESET_ADC_Pin GPIO_PIN_13
 #define RESET_ADC_GPIO_Port GPIOF
 #define SW_FF_Pin GPIO_PIN_14
@@ -96,24 +87,22 @@ void Error_Handler(void);
 #define CSB_AUX_GPIO_Port GPIOE
 #define DRDY_AUX_Pin GPIO_PIN_13
 #define DRDY_AUX_GPIO_Port GPIOE
+#define RMII_TXD1_Pin GPIO_PIN_13
+#define RMII_TXD1_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_14
 #define LD3_GPIO_Port GPIOB
-#define LED1_Pin GPIO_PIN_8
-#define LED1_GPIO_Port GPIOD
-#define LED2_Pin GPIO_PIN_9
-#define LED2_GPIO_Port GPIOD
+#define STLK_RX_Pin GPIO_PIN_8
+#define STLK_RX_GPIO_Port GPIOD
+#define STLK_TX_Pin GPIO_PIN_9
+#define STLK_TX_GPIO_Port GPIOD
 #define CS_ADC_Pin GPIO_PIN_14
 #define CS_ADC_GPIO_Port GPIOD
 #define SHUTDOWN_Pin GPIO_PIN_15
 #define SHUTDOWN_GPIO_Port GPIOD
-#define USB_OverCurrent_Pin GPIO_PIN_5
-#define USB_OverCurrent_GPIO_Port GPIOG
 #define USB_PowerSwitchOn_Pin GPIO_PIN_6
 #define USB_PowerSwitchOn_GPIO_Port GPIOG
-#define STLK_RX_Pin GPIO_PIN_7
-#define STLK_RX_GPIO_Port GPIOG
-#define STLK_TX_Pin GPIO_PIN_8
-#define STLK_TX_GPIO_Port GPIOG
+#define USB_OverCurrent_Pin GPIO_PIN_7
+#define USB_OverCurrent_GPIO_Port GPIOG
 #define USB_SOF_Pin GPIO_PIN_8
 #define USB_SOF_GPIO_Port GPIOA
 #define USB_VBUS_Pin GPIO_PIN_9
@@ -128,12 +117,22 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define SWO_Pin GPIO_PIN_3
-#define SWO_GPIO_Port GPIOB
+#define LED2_Pin GPIO_PIN_9
+#define LED2_GPIO_Port GPIOG
+#define RMII_TX_EN_Pin GPIO_PIN_11
+#define RMII_TX_EN_GPIO_Port GPIOG
+#define RMII_TXD0_Pin GPIO_PIN_13
+#define RMII_TXD0_GPIO_Port GPIOG
+#define LED1_Pin GPIO_PIN_14
+#define LED1_GPIO_Port GPIOG
 #define LD2_Pin GPIO_PIN_7
 #define LD2_GPIO_Port GPIOB
-/* USER CODE BEGIN Private defines */
 
+/* USER CODE BEGIN Private defines */
+extern UART_HandleTypeDef huart3;
+extern I2C_HandleTypeDef hi2c1;
+extern SPI_HandleTypeDef hspi1;
+extern uint8_t rx_char;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

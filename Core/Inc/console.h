@@ -11,7 +11,7 @@
 #include <stdatomic.h>
 
 int __io_putchar(int ch);
-void LPUART_CharReception_Callback();
+void HAL_UART_RxCpltCallback();
 void console_init();
 void cnsl_buf_clear();
 
